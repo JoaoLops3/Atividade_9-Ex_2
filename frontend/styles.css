@@ -1,0 +1,21 @@
+.nota-card {
+    transition: transform 0.2s;
+}
+
+.nota-card:hover {
+    transform: translateY(-5px);
+}
+
+.nota-acoes {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.nota-card:hover .nota-acoes {
+    opacity: 1;
+}
+
+.nota-data {
+    font-size: 0.8rem;
+    color: #6c757d;
+} 
