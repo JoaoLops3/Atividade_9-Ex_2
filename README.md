@@ -56,7 +56,4 @@ Este é um sistema completo de gerenciamento de notas com backend em Node.js/Exp
 
 - Backend: [Link do Deploy no Render]
 - Frontend: [Link do Deploy na Vercel]
-
-## Autor
-
-[Seu Nome]
+- Github: 
