@@ -10,9 +10,6 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Servir arquivos estáticos
-app.use(express.static(path.join(__dirname, '../frontend')));
-
 // Log de todas as requisições
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
@@ -51,20 +48,16 @@ app.delete('/api/notas/:id', (req, res) => {
     res.status(204).send();
 });
 
-// Middleware para tratar rotas não encontradas
-app.use((req, res) => {
-    console.log(`Rota não encontrada: ${req.method} ${req.url}`);
-    res.status(404).json({ error: 'Rota não encontrada' });
-});
+// Servir arquivos estáticos do frontend
+app.use(express.static(path.join(__dirname, '../frontend')));
 
-// Middleware para tratar erros
-app.use((err, req, res, next) => {
-    console.error('Erro interno:', err.stack);
-    res.status(500).json({ error: 'Erro interno do servidor' });
+// Rota para o frontend
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
 // Iniciar servidor
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor iniciado na porta ${port}`);
     console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
     console.log(`URL: http://localhost:${port}`);
