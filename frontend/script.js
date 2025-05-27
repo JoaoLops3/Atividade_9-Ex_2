@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://atividade-9-ex-2-backend.onrender.com/api';
 
 // Elementos do DOM
 const notaForm = document.getElementById('notaForm');
