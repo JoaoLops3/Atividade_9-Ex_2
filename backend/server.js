@@ -1,19 +1,17 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
+const path = require('path');
 const app = express();
 
 // Configuração da porta
 const port = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors({
-    origin: '*', // Permite todas as origens
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type']
-}));
-app.use(bodyParser.json());
+app.use(cors());
 app.use(express.json());
+
+// Servir arquivos estáticos
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Log de todas as requisições
 app.use((req, res, next) => {
@@ -22,52 +20,35 @@ app.use((req, res, next) => {
 });
 
 // Rota de teste
-app.get('/', (req, res) => {
-    console.log('Rota / acessada');
+app.get('/api/test', (req, res) => {
+    console.log('Rota /api/test acessada');
     res.json({ message: 'API está funcionando!' });
 });
 
 // Rotas de notas
-app.get('/notas', (req, res) => {
-    console.log('Rota /notas acessada');
-    try {
-        res.json([]); // Por enquanto retorna array vazio
-    } catch (error) {
-        console.error('Erro ao buscar notas:', error);
-        res.status(500).json({ error: 'Erro ao buscar notas' });
-    }
+app.get('/api/notas', (req, res) => {
+    console.log('Rota /api/notas acessada');
+    res.json([]);
 });
 
-app.post('/notas', (req, res) => {
-    try {
-        const nota = req.body;
-        nota.id = Date.now().toString();
-        nota.dataCriacao = new Date();
-        res.status(201).json(nota);
-    } catch (error) {
-        console.error('Erro ao criar nota:', error);
-        res.status(500).json({ error: 'Erro ao criar nota' });
-    }
+app.post('/api/notas', (req, res) => {
+    console.log('Rota POST /api/notas acessada');
+    const nota = req.body;
+    nota.id = Date.now().toString();
+    nota.dataCriacao = new Date();
+    res.status(201).json(nota);
 });
 
-app.put('/notas/:id', (req, res) => {
-    try {
-        const { id } = req.params;
-        const nota = req.body;
-        res.json({ ...nota, id });
-    } catch (error) {
-        console.error('Erro ao atualizar nota:', error);
-        res.status(500).json({ error: 'Erro ao atualizar nota' });
-    }
+app.put('/api/notas/:id', (req, res) => {
+    console.log(`Rota PUT /api/notas/${req.params.id} acessada`);
+    const { id } = req.params;
+    const nota = req.body;
+    res.json({ ...nota, id });
 });
 
-app.delete('/notas/:id', (req, res) => {
-    try {
-        res.status(204).send();
-    } catch (error) {
-        console.error('Erro ao excluir nota:', error);
-        res.status(500).json({ error: 'Erro ao excluir nota' });
-    }
+app.delete('/api/notas/:id', (req, res) => {
+    console.log(`Rota DELETE /api/notas/${req.params.id} acessada`);
+    res.status(204).send();
 });
 
 // Middleware para tratar rotas não encontradas

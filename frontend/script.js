@@ -1,4 +1,4 @@
-const API_URL = 'https://atividade-9-ex-2.onrender.com';
+const API_URL = 'https://atividade-9-ex-2.onrender.com/api';
 
 // Elementos do DOM
 const notaForm = document.getElementById('notaForm');
@@ -20,6 +20,9 @@ cancelarBtn.addEventListener('click', cancelarEdicao);
 async function carregarNotas() {
     try {
         const response = await fetch(`${API_URL}/notas`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const notas = await response.json();
         exibirNotas(notas);
     } catch (error) {
@@ -92,7 +95,7 @@ async function criarNota(nota) {
     });
     
     if (!response.ok) {
-        throw new Error('Erro ao criar nota');
+        throw new Error(`HTTP error! status: ${response.status}`);
     }
 }
 
@@ -106,7 +109,7 @@ async function atualizarNota(id, nota) {
     });
     
     if (!response.ok) {
-        throw new Error('Erro ao atualizar nota');
+        throw new Error(`HTTP error! status: ${response.status}`);
     }
 }
 
@@ -121,7 +124,7 @@ async function excluirNota(id) {
         });
         
         if (!response.ok) {
-            throw new Error('Erro ao excluir nota');
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         carregarNotas();
@@ -134,6 +137,9 @@ async function excluirNota(id) {
 async function editarNota(id) {
     try {
         const response = await fetch(`${API_URL}/notas/${id}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const nota = await response.json();
         
         notaId.value = nota.id;
