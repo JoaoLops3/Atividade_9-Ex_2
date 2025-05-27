@@ -8,9 +8,14 @@ const port = process.env.PORT || 3000;
 
 // Configuração do CORS
 const corsOptions = {
-    origin: ['https://atividade-9-ex-2.onrender.com', 'http://localhost:8000'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type']
+    origin: [
+        'https://atividade-9-ex-2.onrender.com',
+        'https://atividade-9-ex-2.vercel.app',
+        'http://localhost:8000'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
 };
 
 // Middleware
