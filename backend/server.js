@@ -60,14 +60,6 @@ app.delete('/api/notas/:id', (req, res) => {
     res.status(204).send();
 });
 
-// Servir arquivos estáticos do frontend
-app.use(express.static(path.join(__dirname, '../frontend')));
-
-// Rota para o frontend
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/index.html'));
-});
-
 // Iniciar servidor
 app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor iniciado na porta ${port}`);
