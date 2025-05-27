@@ -6,8 +6,15 @@ const app = express();
 // Configuração da porta
 const port = process.env.PORT || 3000;
 
+// Configuração do CORS
+const corsOptions = {
+    origin: ['https://atividade-9-ex-2.onrender.com', 'http://localhost:8000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type']
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Log de todas as requisições
