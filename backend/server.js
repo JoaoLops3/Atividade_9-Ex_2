@@ -15,13 +15,21 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(express.json());
 
+// Log de todas as requisições
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
+
 // Rota de teste
 app.get('/', (req, res) => {
+    console.log('Rota / acessada');
     res.json({ message: 'API está funcionando!' });
 });
 
 // Rotas de notas
 app.get('/notas', (req, res) => {
+    console.log('Rota /notas acessada');
     try {
         res.json([]); // Por enquanto retorna array vazio
     } catch (error) {
@@ -64,7 +72,7 @@ app.delete('/notas/:id', (req, res) => {
 
 // Middleware para tratar rotas não encontradas
 app.use((req, res) => {
-    console.log('Rota não encontrada:', req.method, req.url);
+    console.log(`Rota não encontrada: ${req.method} ${req.url}`);
     res.status(404).json({ error: 'Rota não encontrada' });
 });
 
@@ -75,6 +83,8 @@ app.use((err, req, res, next) => {
 });
 
 // Iniciar servidor
-app.listen(port, '0.0.0.0', () => {
-    console.log(`Servidor rodando na porta ${port}`);
+app.listen(port, () => {
+    console.log(`Servidor iniciado na porta ${port}`);
+    console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`URL: http://localhost:${port}`);
 }); 
